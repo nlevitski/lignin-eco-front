@@ -246,7 +246,7 @@ export class StrapiAPI {
 			throw error;
 		}
 	}
-	private initLocaleURL(path: string, params?: Record<string, string>) {
+	private initLocaleURL(path: string) {
 		const url = new URL(`${this.baseURL}${path}`);
 		if (this.locale !== this.defaultLocale) {
 			url.searchParams.append('locale', this.locale);

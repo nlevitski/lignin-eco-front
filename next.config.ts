@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
-console.log(process.env.NODE_ENV, 'environment');
+
 const nextConfig: NextConfig = {
 	images: {
 		remotePatterns: [
