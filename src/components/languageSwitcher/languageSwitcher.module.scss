@@ -1,0 +1,124 @@
+.customNavItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+.languageItem {
+  align-self: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.localeList {
+  // position: absolute;
+  top: 0;
+  left: 100%;
+  display: flex;
+  // flex-direction: column;
+  box-sizing: border-box;
+  
+  transition: 300ms ease-in-out;
+  
+  // &:hover, &:active {
+  //   background-color: var(--background);
+  // }
+  
+}
+.localeItem {
+  padding: 10px;
+  transition: 300ms ease-in-out;
+}
+.currentLocaleItem {
+  background-color: var(--altbackground);
+  color: var(--primary-text);
+  border-radius: 10px;
+}
+.activeList {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@media (min-width: 961px) {
+  .customNavItem {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .languageItem {
+    padding: 0;
+  }
+  .activeLang {
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 1);
+      z-index: 1;
+      transform: translateY(0);
+      will-change: transform;
+      transition: 0.3s ease;    
+    }
+  }
+  .localeList {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    flex-direction: column;
+    // background-color: var(--background);
+    border-radius: 10px;
+    &:hover {
+      background-color: var(--background);
+      box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+      left: 110%;
+      visibility: inherit;
+      > * {
+        visibility: inherit;
+      }
+    }
+    & > * {
+      visibility: hidden;
+
+    }
+    & > :first-child {
+      visibility: inherit;
+    }
+
+  }
+  .localeItem {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 100%;
+      margin: 0 auto;
+      background-color: var(--altbackground);
+      width: 50%;
+      height: 1px;
+      z-index: 1000;
+    }
+    &:first-child::before {
+      display: none;
+    }
+  }
+  
+  .currentLocaleItem {
+    background-color: transparent;
+    color: inherit;
+  }
+  .active {
+    background-color: var(--background);
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.7);
+    left: 110%;
+  }
+
+}
+.visible {
+    visibility: inherit;
+  }

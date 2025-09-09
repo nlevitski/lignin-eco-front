@@ -1,0 +1,63 @@
+{
+  "button": {
+    "more": "More...",
+    "less": "Less...",
+    "send": "Send",
+    "backToHome": "Back To Home"
+  },
+  "footer": {
+    "phonesMessengers": "Phone/Whatsapp",
+    "email": "Email"
+  },
+  "feedback": {
+    "form": {
+      "email": {
+        "placeholder": "Email",
+        "errors": {
+          "required": "Email is required",
+          "invalid": "Invalid email format"
+        }
+      },
+      "phone": {
+        "placeholder": "Phone",
+        "errors": {
+          "required": "Phone is required",
+          "invalid": "Invalid phone format. Must start with + and contain 6 to 14 digits"
+        }
+      },
+      "name": {
+        "placeholder": "Name",
+        "errors": {
+          "required": "Name is required",
+          "nameToManySpaces": "Name cannot contain more than two spaces",
+          "nameInvalidChars": "Name contains invalid characters"
+        }
+      },
+      "message": {
+        "placeholder": "Question",
+        "errors": {
+          "required": "Message is required",
+          "messageLength": "Message must be between 5 and 1000 characters"
+        }
+      },
+      "ariaLabel": "Feedback form"
+    },
+    "statuses": {
+      "success": "Thank you! Data sent successfully.",
+      "validationError": "Validation error",
+      "sendingNotificationError": "Sending notification error",
+      "networkError": "Network error: Failed to send request"
+    }
+  },
+  "menu": {
+    "language": "Language",
+    "locales": {
+      "en": "En",
+      "pl": "Pl"
+    }
+  },
+  "notFound": {
+    "title": "Page not Found",
+    "description": "Sorry, but such page does not exist."
+  }
+}

@@ -1,0 +1,14 @@
+.linkIcon {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 48px;
+  overflow: hidden;
+}
+
+@media (min-width: 426px) {
+  .linkIcon {
+    max-width: none;
+  }
+}

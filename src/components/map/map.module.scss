@@ -1,0 +1,33 @@
+.box {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 48px;
+  max-width: 368px;
+  width: 100%;
+  height: 300px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex: 1 0 auto;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--background);
+}
+.map {
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--foreground);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+@media (min-width: 384px) {
+  .box {
+    max-width: 384px;
+  }
+}

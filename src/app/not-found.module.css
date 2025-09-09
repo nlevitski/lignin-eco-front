@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 75% center;
+  >p {
+    margin-bottom: 8px;
+  }
+}
+.notFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background-color: var(--background);
+  text-align: center;
+}
+.notFoundTitle {
+  font-size: 22px;
+  line-height: 1.5;
+  font-weight: 600;
+  
+  span {
+    font-size: 90px;
+    font-weight: 700;
+  }
+}
+.notFoundText {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+.notFoundButtonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+
+@media (min-width: 481px) {
+  .notFoundTitle {
+    font-size: 26px;
+    span {
+      font-size: 100px;
+    }
+  }
+  .notFoundText {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 641px) {
+  .notFoundTitle {
+    font-size: 28px;
+    span {
+      font-size: 108px;
+    }
+  }
+  .notFoundText {
+    font-size: 18px;
+  }
+  .notFoundButtonWrapper {
+    padding: 30px 0;
+  }
+}
+@media (min-width: 961px) {
+  .notFoundTitle {
+    font-size: 30px;
+    span {
+      font-size: 116px;
+    }
+  }
+  .notFoundText {
+    font-size: 20px;
+  }
+}

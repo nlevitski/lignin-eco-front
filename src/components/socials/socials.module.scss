@@ -1,0 +1,20 @@
+.panel {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 24px 0;
+  gap: 8px;
+  color: var(--background);
+}
+
+@media (min-width: 376px) {
+  .panel {
+    gap: 12px;
+  }
+}
+
+@media (min-width: 641px) {
+  .panel {
+    gap: 16px;
+  }
+}

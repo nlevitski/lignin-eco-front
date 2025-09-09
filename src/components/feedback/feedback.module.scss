@@ -1,0 +1,98 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  padding: 100px 0;
+  background-color: var(--altbackground);
+  // background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%), url('/images/webp/pics/form-background.webp');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  color: var(--background);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 18px;
+  padding: 0 20px;
+}
+.upper {
+  text-transform: uppercase;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 560px;
+
+}
+.inputWrapper, .inputTextareaWrapper {
+  display: flex;
+  flex-direction: column;
+  
+  padding-bottom: 8px;
+  overflow: hidden;
+}
+.inputWrapper {
+  min-height: 88px;
+}
+.inputTextareaWrapper {
+  min-height: 130px;
+}
+.inputText, .inputTextarea {
+  padding: 18px;
+  
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  line-height: 16px;
+  border-color: transparent;
+  &:focus {
+    outline: none;
+  }
+}
+.inputTextarea {
+  resize: vertical;
+  min-height: 102px;
+}
+.errorMessage {
+  padding: 0 14px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-error);
+}
+.submitted {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: 50vh;
+}
+
+.statusBox {
+  display: inline-block;
+  padding: 20px;
+  max-width: 560px;
+  width: 100%;
+  background-color: #62c584;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (min-width: 481px) {
+  .title {
+    margin-bottom: 40px;
+  }
+}
+@media (min-width: 641px) {
+  .statusBox {
+    font-size: 18px;
+  }
+}

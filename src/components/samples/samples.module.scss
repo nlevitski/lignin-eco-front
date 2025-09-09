@@ -1,0 +1,67 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  width: 100%;
+  gap: 40px;
+  overflow: hidden;
+  
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  gap: 16px;
+}
+.imgBox {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  overflow: hidden;
+}
+.img {
+  margin: 0;
+}
+
+.caption {
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+  
+}
+
+@media (min-width: 481px) {
+  .panel {
+    width: auto;
+    flex-direction: row;
+    // padding: 0 16px;
+    gap: 16px;
+    justify-content: center;
+    align-items: start;
+  }
+}
+
+@media (min-width: 641px) {
+  .panel {
+    // padding: 0 24px;
+    gap: 24px;
+
+  }
+}
+@media (min-width: 961px) {
+  .panel {
+    width: 100%;
+    max-width: 1200px;
+    
+  }
+}

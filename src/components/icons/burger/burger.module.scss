@@ -1,0 +1,28 @@
+.burgerIcon {
+    transition: transform 0.3s ease;
+    line-height: 0;
+    will-change: transform;
+
+    .line {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .topLine {
+      transform-origin: 6px 8px;
+    }
+    .bottomLine {
+      transform-origin: 5px 23px;
+    }
+    &.active {
+        .topLine {
+            transform: translateX(3px) translateY(1px) rotate(45deg);
+        }
+
+        .middleLine {
+            opacity: 0;
+        }
+
+        .bottomLine {
+            transform: translateX(3px) rotate(-45deg);
+        }
+    }
+}

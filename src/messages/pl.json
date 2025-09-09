@@ -1,0 +1,63 @@
+{
+  "button": {
+    "more": "Więcej...",
+    "less": "Mniej...",
+    "send": "Wysłać",
+    "backToHome": "Powrót do strony głównej"
+  },
+  "footer": {
+    "phonesMessengers": "Telefon/WhatsApp",
+    "email": "Email"
+  },
+  "feedback": {
+    "form": {
+      "email": {
+        "placeholder": "Email",
+        "errors": {
+          "required": "Pole nie może być puste",
+          "invalid": "Nieprawidłowy format adresu e-mail"
+        }
+      },
+      "phone": {
+        "placeholder": "Telefon",
+        "errors": {
+          "required": "Pole nie może być puste",
+          "invalid": "Nieprawidłowy format numeru telefonu. Powinien zaczynać się od + i zawierać od 6 do 14 cyfr"
+        }
+      },
+      "name": {
+        "placeholder": "Imię",
+        "errors": {
+          "required": "Pole nie może być puste",
+          "nameToManySpaces": "Imię nie może zawierać więcej niż dwóch spacji",
+          "nameInvalidChars": "Imię zawiera niedozwolone znaki"
+        }
+      },
+      "message": {
+        "placeholder": "Zapytanie",
+        "errors": {
+          "required": "Pole nie może być puste",
+          "messageLength": "Wiadomość musi zawierać od 5 do 1000 znaków"
+        }
+      },
+      "ariaLabel": "Formularz opinii"
+    },
+    "statuses": {
+      "success": "Dziękujemy! Dane zostały pomyślnie wysłane.",
+      "validationError": "Błąd walidacji",
+      "sendingNotificationError": "Błąd wysyłania powiadomienia",
+      "networkError": "Błąd sieciowy: Nie udało się wysłać żądania"
+    }
+  },
+  "menu": {
+    "language": "Język",
+    "locales": {
+      "en": "En",
+      "pl": "Pl"
+    }
+  },
+  "notFound": {
+    "title": "Strona nie istnieje",
+    "description": "Przepraszamy, ale taka strona nie istnieje. Sprawdź ścieżkę."
+  }
+}

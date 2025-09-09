@@ -1,0 +1,146 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: -90px;
+  padding: 60px 0 0;
+  height: 100vh;
+  color: var(--background);
+  background-color: rgb(100, 100, 100);
+  background-image: none;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  text-align: center;
+  will-change: background-image;
+}
+
+.title {
+  padding: 0 16px;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 600;
+  text-align: center;
+  
+  color: var(--foreground);
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+}
+.heading {
+  &1 {
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 0;
+    color: var(--foreground);
+    letter-spacing: -0.5px;
+  }
+  &2 {
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+}
+.subtitle {
+  margin: 16px 0;
+  padding: 0 16px;
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+.upper {
+  text-transform: uppercase;
+}
+
+@media (min-width: 481px) {
+  .title {
+    font-size: 32px;
+  }
+}
+@media (min-width: 641px) {
+  .title {
+    font-size: 46px;
+    letter-spacing: -1px;
+  }
+  .subtitle {
+    font-size: 20px;
+    letter-spacing: -1px;
+    br {
+      display: none;
+    }
+  }
+  .heading {
+    &1 {
+      font-size: 46px;
+      letter-spacing: -1px;
+    }
+    &2 {
+      font-size: 20px;
+      letter-spacing: -1px;
+      br {
+        display: none;
+      }
+    }
+
+  }
+  .container {
+    // margin-top: -104px;
+    margin-top: -80px;
+  }
+}
+@media (min-width: 769px) {
+  .subtitle {
+    br {
+      display: inline;
+    }
+  }
+  .heading {
+    &2 {
+      br {
+        display: inline;
+      }
+    }
+  }
+}
+@media (min-width: 961px) {
+  .container {
+    margin-top: -174px;
+  }
+  .title {
+    font-size: 68px;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    
+  }
+  .subtitle {
+    max-width: 960px;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    
+    // br {
+    //   display: inline;
+    // }
+  }
+  .heading {
+    &1 {
+      font-size: 60px;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    &2 {
+      font-size: 22px;
+      letter-spacing: -1px;
+    }
+  }
+}
