@@ -221,8 +221,8 @@ const STRAPI_URL =
 export class StrapiAPI {
 	private readonly defaultLocale = 'en';
 	private readonly options: RequestInit = {
-		// next: { revalidate: 3600 },
-		cache: 'no-store',
+		next: { revalidate: 3600 },
+		cache: 'force-cache',
 	};
 	private readonly baseURL = `${STRAPI_URL}/api/`;
 
