@@ -20,7 +20,6 @@ jobs:
 
             cd ${{ secrets.VPS_PATH }} &&
             git pull origin main &&
-            corepack enable &&
             pnpm install --frozen-lockfile &&
             pnpm build &&
             pm2 restart front
