@@ -40,8 +40,8 @@ jobs:
             
             # Устанавливаем зависимости и собираем проект
             pnpm install --frozen-lockfile &&
-            pnpm build &&
+            pnpm next build &&
             
             # Перезапускаем PM2
-            pm2 restart front
+            /home/${{ secrets.VPS_USER }}/.pnpm-global/bin/pm2 restart front
           "
