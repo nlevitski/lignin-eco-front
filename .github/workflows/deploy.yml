@@ -29,7 +29,7 @@ jobs:
             # Проверяем версии (для отладки)
             echo 'Node version:' && node -v
             echo 'pnpm version:' && pnpm -v
-            echo 'pm2 version:' && pm2 --version
+            echo 'pm2 version:' && /home/${{ secrets.VPS_USER }}/.pnpm-global/bin/pm2 --version
             echo 'PATH:' && echo \$PATH
             
             # Переходим в директорию проекта
