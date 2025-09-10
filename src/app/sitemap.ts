@@ -30,22 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			});
 		});
 	});
-	console.log(urls);
 	return urls;
-	return [
-		{
-			url: `${url.href}`,
-			lastModified: new Date(),
-			changeFrequency: 'yearly',
-			priority: 1,
-		},
-		{
-			url: `${url.href}/pl`,
-			lastModified: new Date(),
-			changeFrequency: 'yearly',
-			priority: 1,
-		},
-	];
 }
 
 // export default function sitemap(): MetadataRoute.Sitemap {

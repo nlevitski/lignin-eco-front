@@ -14,15 +14,16 @@ jobs:
       - name: Execute deploy commands
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            
-            export FNM_PATH=\"/home/${{secrets.VPS_USER}}/.local/share/fnm\"
+            # Инициализируем fnm
+            export FNM_PATH=\"/home/${{ secrets.VPS_USER }}/.local/share/fnm\"
             export PATH=\"\$FNM_PATH:\$PATH\"
             eval \"\$(fnm env)\"
-
+            
+            # Используем default версию Node.js
             fnm use default
             
             # Добавляем pnpm в PATH
-            export PNPM_HOME=\"/home/${{secrets.VPS_USER}}/.local/share/pnpm\"
+            export PNPM_HOME=\"/home/${{ secrets.VPS_USER }}/.local/share/pnpm\"
             export PATH=\"\$PNPM_HOME:\$PATH\"
             
             # Проверяем версии (для отладки)
