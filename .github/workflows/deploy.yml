@@ -14,13 +14,33 @@ jobs:
       - name: Execute deploy commands
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            source ~/.bashrc || true
-            node -v
-            pnpm -v
-
+            
+            export FNM_PATH=\"/home/levius/.local/share/fnm\"
+            export PATH=\"\$FNM_PATH:\$PATH\"
+            eval \"\$(fnm env)\"
+            
+            
+            fnm use default
+            
+            
+            export PNPM_HOME=\"/home/levius/.local/share/pnpm\"
+            export PATH=\"\$PNPM_HOME:\$PATH\"
+            
+            
+            echo 'Node version:' && node -v
+            echo 'pnpm version:' && pnpm -v
+            echo 'PATH:' && echo \$PATH
+            
+            # Переходим в директорию проекта
             cd ${{ secrets.VPS_PATH }} &&
+            
+            # Обновляем код
             git pull origin main &&
+            
+            # Устанавливаем зависимости и собираем проект
             pnpm install --frozen-lockfile &&
             pnpm build &&
+            
+            # Перезапускаем PM2
             pm2 restart front
           "
