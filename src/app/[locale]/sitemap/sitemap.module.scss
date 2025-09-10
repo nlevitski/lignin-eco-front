@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 30px;
+  overflow: hidden;
+}
+.holder {
+  margin: 0 auto;
+  max-width: 768px;
+}
+.link {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 0 24px;
+  width: 100%;
+}
+.header {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+.title {
+  position: relative;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 400;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: -36px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url('/icons/item.svg');
+    background-repeat: no-repeat;
+    background-position: center;  
+    
+  }
+}
+.description {
+  font-size: 15px;
+  line-height: 1.35;
+  opacity: 0.5;
+  
+}

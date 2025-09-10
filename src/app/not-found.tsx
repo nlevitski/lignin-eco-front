@@ -17,7 +17,7 @@ export async function generateMetadata() {
 		return { locale, path };
 	});
 	return {
-		metadataBase: new URL('https://lignin-eco.com'),
+		metadataBase: new URL('https://lignineco.com'),
 		alternates: {
 			canonical: '/',
 			languages: Object.fromEntries(

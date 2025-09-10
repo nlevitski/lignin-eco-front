@@ -214,6 +214,11 @@ export type FeedbackForm = {
 	message: string;
 	data: FeedbackData;
 };
+export type SitemapPageData = {
+	title: string;
+	path: string;
+	seo: SEO;
+};
 
 const STRAPI_URL =
 	process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
@@ -305,6 +310,11 @@ export class StrapiAPI {
 		const url = this.initLocaleURL('not-found');
 		url.searchParams.append('populate[seo][populate]', 'openGraph');
 		return this.fetchJson<SingleResponse<NotFoundData>>(url);
+	}
+	async getSitemapPage() {
+		const url = this.initLocaleURL('sitemap-page');
+		url.searchParams.append('populate[seo][populate]', '*');
+		return this.fetchJson<SingleResponse<SitemapPageData>>(url);
 	}
 	async sendFeedbackForm(payload: FormData) {
 		const url = this.initLocaleURL('form');
