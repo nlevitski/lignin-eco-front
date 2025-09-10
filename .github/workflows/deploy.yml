@@ -15,20 +15,20 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
             
-            export FNM_PATH=\"/home/levius/.local/share/fnm\"
+            export FNM_PATH=\"/home/${{secrets.VPS_USER}}/.local/share/fnm\"
             export PATH=\"\$FNM_PATH:\$PATH\"
             eval \"\$(fnm env)\"
-            
-            
+
             fnm use default
             
-            
-            export PNPM_HOME=\"/home/levius/.local/share/pnpm\"
+            # Добавляем pnpm в PATH
+            export PNPM_HOME=\"/home/${{secrets.VPS_USER}}/.local/share/pnpm\"
             export PATH=\"\$PNPM_HOME:\$PATH\"
             
-            
+            # Проверяем версии (для отладки)
             echo 'Node version:' && node -v
             echo 'pnpm version:' && pnpm -v
+            echo 'pm2 version:' && pm2 --version
             echo 'PATH:' && echo \$PATH
             
             # Переходим в директорию проекта
