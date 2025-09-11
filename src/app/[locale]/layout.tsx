@@ -9,22 +9,24 @@ import { Footer } from '@/components/footer/Footer';
 import { icons } from '@/lib/icons';
 import { getLocale } from 'next-intl/server';
 
+const baseUrl = process.env.NEXT_PUBLIC_ORIGIN || 'https://lignineco.com';
 export async function generateMetadata() {
 	const locale = await getLocale();
+	const url = new URL(baseUrl);
 	const api = new StrapiAPI(locale);
 	const {
 		data: { seo },
 	} = await api.getMainPageSeo();
 	const canonicalPaths = routing.locales.map((locale) => {
-		const path = locale === routing.defaultLocale ? '/' : `/${locale}/`;
+		const path = locale === routing.defaultLocale ? './' : `./${locale}/`;
 		return { locale, path };
 	});
 
 	return {
-		metadataBase: new URL('https://lignin-eco.com'),
+		metadataBase: url.origin,
 		siteName: 'Lignin Eco',
 		alternates: {
-			canonical: '/',
+			canonical: './',
 			languages: Object.fromEntries(
 				canonicalPaths.map((c) => [c.locale, c.path])
 			),
