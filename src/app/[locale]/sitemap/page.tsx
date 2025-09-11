@@ -4,36 +4,6 @@ import { getLocale } from 'next-intl/server';
 import { StrapiAPI } from '@/dal/common';
 import { routing } from '@/i18n/routing';
 
-// const links = [
-// 	{
-// 		title:
-// 			'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН очищенный. Сорбент для ЛАРН. Брикеты пеллеты из лигнина',
-// 		description:
-// 			'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
-// 		href: '/',
-// 	},
-// 	{
-// 		title: 'Cтатьи о применении лигнина в различных сферах',
-// 		description: 'Сорбент лигнин статьи научные исследования использование',
-// 		href: '/articles',
-// 	},
-// ];
-// const defaultMetaTags = {
-// 	title: 'Карта сайта - Лигнин гидролизный',
-// 	description:
-// 		'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки. Сорбент для ЛАРН. Россия Беларусь Казахстан Узбекистан Грузия Молдова',
-// 	alternates: {
-// 		canonical: 'https://ligninsorbent.ru/sitemap',
-// 	},
-// 	openGraph: {
-// 		title: 'Карта сайта - Лигнин гидролизный',
-// 		description:
-// 			'Производим СОРБЕНТ, АДСОРБЕНТ, ЭНТЕРОСОРБЕНТ - ЛИГНИН гидролизный высокой степени очистки',
-// 		type: 'website',
-// 		url: 'https://ligninsorbent.ru/sitemap',
-// 	},
-// };
-
 export async function generateMetadata() {
 	const locale = await getLocale();
 	const api = new StrapiAPI(locale);

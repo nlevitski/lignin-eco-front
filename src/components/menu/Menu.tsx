@@ -32,6 +32,7 @@ export const Menu = ({ menu }: MenuProps) => {
 			href: `#${item.targetDocumentId}`,
 		};
 	});
+	menuItems[0].href = '/';
 
 	const toggleMenu = () => {
 		setIsOpen((prev) => {

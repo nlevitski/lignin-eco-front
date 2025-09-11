@@ -56,6 +56,14 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
+	// async headers() {
+	// 	return [
+	// 		{
+	// 			source: '/sitemap.xml',
+	// 			headers: [{ key: 'Content-Type', value: 'application/xml' }],
+	// 		},
+	// 	];
+	// },
 };
 const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(nextConfig);

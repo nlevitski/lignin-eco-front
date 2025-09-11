@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
-const baseUrl = 'https://lignin-eco.com';
+const baseUrl = process.env.NEXT_PUBLIC_ORIGIN || 'https://lignineco.com';
 export default function robots(): MetadataRoute.Robots {
 	return {
 		rules: {
