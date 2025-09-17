@@ -8,6 +8,7 @@ import { Feedback } from '@/components/feedback/Feedback';
 import { Footer } from '@/components/footer/Footer';
 import { icons } from '@/lib/icons';
 import { getLocale } from 'next-intl/server';
+import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
 
 const baseUrl = process.env.NEXT_PUBLIC_ORIGIN || 'https://lignineco.com';
 export async function generateMetadata() {
@@ -80,15 +81,6 @@ export default async function LocaleLayout({
 
 	return (
 		<html lang={locale}>
-			<head>
-				{/* Просто preload + обычная загрузка */}
-				<link
-					rel='preload'
-					href='/_next/static/css/app/[locale]/page.css'
-					as='style'
-				/>
-				<link rel='stylesheet' href='/_next/static/css/app/[locale]/page.css' />
-			</head>
 			<body className={tildaSans.variable}>
 				<NextIntlClientProvider>
 					<Menu menu={menu} />
@@ -98,6 +90,7 @@ export default async function LocaleLayout({
 					<Feedback data={feedbackData} />
 				</NextIntlClientProvider>
 				<Footer footer={footerData} sitemapLink={sitemapLink} />
+				<ScrollTopButton />
 			</body>
 		</html>
 	);
