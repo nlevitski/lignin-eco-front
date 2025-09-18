@@ -34,4 +34,5 @@ export const tildaSans = localFont({
 		},
 	],
 	variable: '--font-tilda-sans',
+	display: 'swap',
 });
