@@ -9,6 +9,8 @@ import { Footer } from '@/components/footer/Footer';
 import { icons } from '@/lib/icons';
 import { getLocale } from 'next-intl/server';
 import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 
 const baseUrl = process.env.NEXT_PUBLIC_ORIGIN || 'https://lignineco.com';
 export async function generateMetadata() {
@@ -78,7 +80,7 @@ export default async function LocaleLayout({
 		api.getFooter(),
 		api.getFeedback(),
 	]);
-
+	const isProduciton = process.env.NODE_ENV === 'production';
 	return (
 		<html lang={locale}>
 			<body className={tildaSans.variable}>
@@ -91,6 +93,24 @@ export default async function LocaleLayout({
 				</NextIntlClientProvider>
 				<Footer footer={footerData} sitemapLink={sitemapLink} />
 				<ScrollTopButton />
+				{isProduciton && (
+					<GoogleAnalytics
+						gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!}
+					/>
+				)}
+				<Script id='consent-default' strategy='afterInteractive'>
+					{`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              ad_storage: 'denied',
+              analytics_storage: 'denied',
+              personalization_storage: 'denied',
+              functionality_storage: 'denied',
+              security_storage: 'granted'
+            });
+          `}
+				</Script>
 			</body>
 		</html>
 	);
