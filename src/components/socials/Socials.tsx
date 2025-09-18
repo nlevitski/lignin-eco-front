@@ -14,7 +14,7 @@ const icons = [
 		icon: <Telegram />,
 	},
 	{
-		title: 'Whatsup',
+		title: 'Whatsaap',
 		href: 'https://wa.me/375297290243',
 		icon: <Whatsapp />,
 	},
