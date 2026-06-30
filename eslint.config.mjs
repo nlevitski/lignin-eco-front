@@ -1,16 +1,15 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const nextPlugin = await import("@next/eslint-plugin-next");
+const nextConfig = await import("eslint-config-next");
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  nextPlugin.default.configs["core-web-vitals"],
+  nextConfig.default.find((config) => config.name === "next/typescript"),
   {
     ignores: [
       "node_modules/**",

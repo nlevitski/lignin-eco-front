@@ -9,27 +9,28 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@formatjs/intl-localematcher": "^0.6.1",
-    "@next/third-parties": "^15.5.3",
+    "@formatjs/intl-localematcher": "^0.8.10",
+    "@next/third-parties": "16.2.9",
     "classnames": "^2.5.1",
     "modern-normalize": "^3.0.1",
     "negotiator": "^1.0.0",
-    "next": "15.5.0",
-    "next-intl": "^4.3.5",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "sass": "^1.91.0"
+    "next": "16.2.9",
+    "next-intl": "^4.13.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "sass": "^1.101.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@next/bundle-analyzer": "^15.5.3",
+    "@eslint/eslintrc": "^3.3.5",
+    "@next/bundle-analyzer": "16.2.9",
     "@types/negotiator": "^0.6.4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.0",
-    "typescript": "^5"
+    "@types/node": "^26.0.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@next/eslint-plugin-next": "16.2.9",
+    "eslint": "^10.6.0",
+    "eslint-config-next": "16.2.9",
+    "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@10.15.1+sha512.34e538c329b5553014ca8e8f4535997f96180a1d0f614339357449935350d924e22f8614682191264ec33d1462ac21561aff97f6bb18065351c162c7e8f6de67"
 }
