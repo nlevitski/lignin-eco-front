@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
 export type CollectionResponse<T> = {
 	data: Document<T>[];
@@ -56,7 +56,7 @@ export type Document<T> = BaseDocument & T;
 export type MenuLink = {
 	title: string;
 	order: number;
-	anchorType: 'section' | 'article';
+	anchorType: "section" | "article";
 	targetDocumentId: string;
 	article: Document<Article>;
 };
@@ -75,12 +75,12 @@ export type Section = {
 	background: SingleMedia[];
 };
 export type ImageSizes =
-	| 'thumbnail'
-	| 'xsmall'
-	| 'small'
-	| 'medium'
-	| 'large'
-	| 'xlarge';
+	| "thumbnail"
+	| "xsmall"
+	| "small"
+	| "medium"
+	| "large"
+	| "xlarge";
 export type Formats = Record<ImageSizes, ImageDocument>;
 
 export type ImageDocument = BaseImage & {
@@ -88,9 +88,16 @@ export type ImageDocument = BaseImage & {
 	sizeInBytes: number;
 };
 export type StrapiRichTextBlock = {
-	type: 'paragraph' | 'heading' | 'list' | 'image' | 'quote' | 'code' | 'link';
+	type:
+		| "paragraph"
+		| "heading"
+		| "list"
+		| "image"
+		| "quote"
+		| "code"
+		| "link";
 	level?: 1 | 2 | 3 | 4 | 5 | 6;
-	format?: 'ordered' | 'unordered';
+	format?: "ordered" | "unordered";
 	text?: string;
 	url?: string;
 	bold?: boolean;
@@ -109,7 +116,7 @@ export type StrapiRichTextBlock = {
 };
 
 export type StrapiRichTextNode = {
-	type: 'text' | 'link';
+	type: "text" | "link";
 	text?: string;
 	url?: string;
 	bold?: boolean;
@@ -221,13 +228,13 @@ export type SitemapPageData = {
 };
 
 const STRAPI_URL =
-	process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+	process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
 export class StrapiAPI {
-	private readonly defaultLocale = 'en';
+	private readonly defaultLocale = "en";
 	private readonly options: RequestInit = {
 		next: { revalidate: 3600 },
-		cache: 'force-cache',
+		cache: "force-cache",
 	};
 	private readonly baseURL = `${STRAPI_URL}/api/`;
 
@@ -254,72 +261,72 @@ export class StrapiAPI {
 	private initLocaleURL(path: string) {
 		const url = new URL(`${this.baseURL}${path}`);
 		if (this.locale !== this.defaultLocale) {
-			url.searchParams.append('locale', this.locale);
+			url.searchParams.append("locale", this.locale);
 		}
 		return url;
 	}
 
 	async getMenuLinks() {
-		const url = this.initLocaleURL('menu-links');
-		url.searchParams.append('populate', '*');
-		url.searchParams.append('sort', 'order');
+		const url = this.initLocaleURL("menu-links");
+		url.searchParams.append("populate", "*");
+		url.searchParams.append("sort", "order");
 		return this.fetchJson<CollectionResponse<MenuLink>>(url);
 	}
 	async getSitemapLink() {
-		const url = this.initLocaleURL('sitemap-link');
+		const url = this.initLocaleURL("sitemap-link");
 		return this.fetchJson<SingleResponse<SitemapLink>>(url);
 	}
 	async getFooter() {
-		const url = this.initLocaleURL('footer');
-		url.searchParams.append('populate', '*');
+		const url = this.initLocaleURL("footer");
+		url.searchParams.append("populate", "*");
 		return this.fetchJson<SingleResponse<FooterSection>>(url);
 	}
 	async getFeedback() {
-		const url = this.initLocaleURL('feedback');
-		url.searchParams.append('populate', '*');
+		const url = this.initLocaleURL("feedback");
+		url.searchParams.append("populate", "*");
 		return this.fetchJson<SingleResponse<FeedbackSection>>(url);
 	}
 	async getMainPageSeo() {
-		const url = this.initLocaleURL('main-page');
-		url.searchParams.append('populate[seo][populate]', '*');
+		const url = this.initLocaleURL("main-page");
+		url.searchParams.append("populate[seo][populate]", "*");
 		return this.fetchJson<SingleResponse<{ seo: SEO }>>(url);
 	}
 	async getHeroSection() {
-		const url = this.initLocaleURL('hero');
-		url.searchParams.append('populate', '*');
+		const url = this.initLocaleURL("hero");
+		url.searchParams.append("populate", "*");
 		return this.fetchJson<SingleResponse<HeroSection>>(url);
 	}
 	async getFeatureSection() {
-		const url = this.initLocaleURL('feature-section');
-		url.searchParams.append('populate[feature_icons][populate]', '*');
+		const url = this.initLocaleURL("feature-section");
+		url.searchParams.append("populate[feature_icons][populate]", "*");
 		return this.fetchJson<SingleResponse<FeatureSection>>(url);
 	}
 	async getAboutUsSection() {
-		const url = this.initLocaleURL('about');
-		url.searchParams.append('populate[products][populate]', 'image');
-		url.searchParams.append('populate', 'background');
+		const url = this.initLocaleURL("about");
+		url.searchParams.append("populate[products][populate]", "image");
+		url.searchParams.append("populate", "background");
 		return this.fetchJson<SingleResponse<AboutUsSection>>(url);
 	}
 	async getArticles() {
-		const url = this.initLocaleURL('articles');
-		url.searchParams.append('populate', '*');
-		url.searchParams.append('sort', 'order');
+		const url = this.initLocaleURL("articles");
+		url.searchParams.append("populate", "*");
+		url.searchParams.append("sort", "order");
 		return this.fetchJson<CollectionResponse<Article>>(url);
 	}
 	async getNotFound() {
-		const url = this.initLocaleURL('not-found');
-		url.searchParams.append('populate[seo][populate]', 'openGraph');
+		const url = this.initLocaleURL("not-found");
+		url.searchParams.append("populate[seo][populate]", "openGraph");
 		return this.fetchJson<SingleResponse<NotFoundData>>(url);
 	}
 	async getSitemapPage() {
-		const url = this.initLocaleURL('sitemap-page');
-		url.searchParams.append('populate[seo][populate]', '*');
+		const url = this.initLocaleURL("sitemap-page");
+		url.searchParams.append("populate[seo][populate]", "*");
 		return this.fetchJson<SingleResponse<SitemapPageData>>(url);
 	}
 	async sendFeedbackForm(payload: FormData) {
-		const url = this.initLocaleURL('form');
+		const url = this.initLocaleURL("form");
 		return this.fetchJson<FeedbackForm>(url, {
-			method: 'POST',
+			method: "POST",
 			body: payload,
 		});
 	}
