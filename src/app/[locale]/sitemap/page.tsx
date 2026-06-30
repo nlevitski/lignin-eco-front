@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import styles from './sitemap.module.scss';
-import { getLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { StrapiAPI } from '@/dal/common';
 import { routing } from '@/i18n/routing';
 
-export async function generateMetadata() {
-	const locale = await getLocale();
+export async function generateMetadata({
+	params,
+}: Readonly<{
+	params: Promise<{ locale: string }>;
+}>) {
+	const { locale } = await params;
+	setRequestLocale(locale);
 	const api = new StrapiAPI(locale);
 	const {
 		data: { seo },
@@ -34,6 +39,7 @@ export default async function SitemapPage({
 	params: Promise<{ locale: string }>;
 }) {
 	const { locale } = await params;
+	setRequestLocale(locale);
 	const api = new StrapiAPI(locale);
 
 	const { 0: sitemapPage, 1: heroSection } = await Promise.all([

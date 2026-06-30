@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
-import bundleAnalyzer from '@next/bundle-analyzer';
+
 const nextConfig: NextConfig = {
 	images: {
 		remotePatterns: [
@@ -9,11 +9,18 @@ const nextConfig: NextConfig = {
 				hostname: 'localhost',
 				pathname: '/**', // Разрешить все пути
 			},
-			{
-				protocol: 'http',
-				hostname: process.env.DEV_DOMAIN ?? '',
-				pathname: '/**',
-			},
+			// DEV_DOMAIN может быть не задан (например, при build без .env),
+			// поэтому пропускаем пустые hostname — иначе Next.js падает
+			// на этапе "Collecting build traces" с "Expected a non-empty string".
+			...(process.env.DEV_DOMAIN
+				? [
+						{
+							protocol: 'http' as const,
+							hostname: process.env.DEV_DOMAIN,
+							pathname: '/**',
+						},
+					]
+				: []),
 			{
 				protocol: 'http',
 				hostname: 'localhost',
@@ -65,9 +72,5 @@ const nextConfig: NextConfig = {
 	// 	];
 	// },
 };
-const withBundleAnalyzer = bundleAnalyzer({
-	enabled: false,
-});
-
 const withNextIntl = createNextIntlPlugin();
-export default withNextIntl(withBundleAnalyzer(nextConfig));
+export default withNextIntl(nextConfig);

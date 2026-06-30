@@ -6,6 +6,8 @@ import { tildaSans } from '@/fonts/fonts';
 import styles from './not-found.module.css';
 import { Button } from '@/components/button/Button';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata() {
 	const locale = await getLocale();
 	const api = new StrapiAPI(locale);

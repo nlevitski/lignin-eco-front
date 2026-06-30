@@ -7,14 +7,23 @@ import { Menu } from '@/components/menu/Menu';
 import { Feedback } from '@/components/feedback/Feedback';
 import { Footer } from '@/components/footer/Footer';
 import { icons } from '@/lib/icons';
-import { getLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import ScrollTopButton from '@/components/scrollToTopButton/ScrollToTopButton';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
 
+export function generateStaticParams() {
+	return routing.locales.map((locale) => ({ locale }));
+}
+
 const baseUrl = process.env.NEXT_PUBLIC_ORIGIN || 'https://lignineco.com';
-export async function generateMetadata() {
-	const locale = await getLocale();
+export async function generateMetadata({
+	params,
+}: Readonly<{
+	params: Promise<{ locale: string }>;
+}>) {
+	const { locale } = await params;
+	setRequestLocale(locale);
 	const url = new URL(baseUrl);
 	const api = new StrapiAPI(locale);
 	const {
@@ -65,6 +74,7 @@ export default async function LocaleLayout({
 	params: Promise<{ locale: string }>;
 }>) {
 	const { locale } = await params;
+	setRequestLocale(locale);
 	if (!hasLocale(routing.locales, locale)) {
 		notFound();
 	}

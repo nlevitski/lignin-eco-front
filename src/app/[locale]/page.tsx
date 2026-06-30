@@ -9,6 +9,7 @@ import { Brief } from '@/components/brief/Brief';
 import { Hero } from '@/components/hero/Hero';
 import { AboutUs } from '@/components/aboutUs/AboutUs';
 import { hasLocale } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 
 export async function generateStaticParams(): Promise<{ locale: string }[]> {
@@ -21,6 +22,7 @@ export default async function Home({
 	params: Promise<{ locale: string }>;
 }) {
 	const { locale } = await params;
+	setRequestLocale(locale);
 
 	if (!hasLocale(routing.locales, locale)) {
 		notFound();
