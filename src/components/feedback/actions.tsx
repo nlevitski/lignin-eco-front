@@ -1,5 +1,6 @@
 'use server';
 import { getTranslations } from 'next-intl/server';
+import { STRAPI_URL } from '@/dal/common';
 // import { feedbackSchema } from './schema';
 const badRequest = 400;
 
@@ -32,7 +33,7 @@ export async function submitFeedback(formData: FormData) {
 	};
 
 	try {
-		const response: Response = await fetch('http://localhost:1337/api/form', {
+		const response: Response = await fetch(`${STRAPI_URL}/api/form`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(data),

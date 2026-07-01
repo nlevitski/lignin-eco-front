@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import qs from "qs";
 
 export type CollectionResponse<T> = {
 	data: Document<T>[];
@@ -171,10 +172,6 @@ export type AboutUsSection = {
 export type FeedbackSection = {
 	title: string;
 	background: SingleMedia[];
-	// emailPlaceholder: string;
-	// phonePlaceholder: string;
-	// namePlaceholder: string;
-	// messagePlaceholder: string;
 };
 export type NotFoundData = {
 	title: string;
@@ -227,20 +224,19 @@ export type SitemapPageData = {
 	seo: SEO;
 };
 
-const STRAPI_URL =
+export const STRAPI_URL =
 	process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
 export class StrapiAPI {
 	private readonly defaultLocale = "en";
 	private readonly options: RequestInit = {
 		next: { revalidate: 3600 },
-		cache: "force-cache",
 	};
 	private readonly baseURL = `${STRAPI_URL}/api/`;
 
 	constructor(private readonly locale: string) {}
 
-	private async fetchJson<T>(url: URL, options?: RequestInit): Promise<T> {
+	private async fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
 		try {
 			const response = await fetch(url, {
 				...this.options,
@@ -254,77 +250,94 @@ export class StrapiAPI {
 			}
 			return await response.json();
 		} catch (error) {
-			console.error(`API request failed: ${url.href}`, error);
+			console.error(`API request failed: ${url}`, error);
 			throw error;
 		}
 	}
-	private initLocaleURL(path: string) {
-		const url = new URL(`${this.baseURL}${path}`);
+
+	private buildUrl(path: string, query: Record<string, unknown> = {}) {
+		const params: Record<string, unknown> = {};
 		if (this.locale !== this.defaultLocale) {
-			url.searchParams.append("locale", this.locale);
+			params.locale = this.locale;
 		}
-		return url;
+		const merged = { ...params, ...query };
+		const queryString = qs.stringify(merged, { encodeValuesOnly: true });
+		return `${this.baseURL}${path}${queryString ? `?${queryString}` : ""}`;
 	}
 
 	async getMenuLinks() {
-		const url = this.initLocaleURL("menu-links");
-		url.searchParams.append("populate", "*");
-		url.searchParams.append("sort", "order");
+		const url = this.buildUrl("menu-links", {
+			populate: "*",
+			sort: "order",
+		});
 		return this.fetchJson<CollectionResponse<MenuLink>>(url);
 	}
 	async getSitemapLink() {
-		const url = this.initLocaleURL("sitemap-link");
+		const url = this.buildUrl("sitemap-link");
 		return this.fetchJson<SingleResponse<SitemapLink>>(url);
 	}
 	async getFooter() {
-		const url = this.initLocaleURL("footer");
-		url.searchParams.append("populate", "*");
+		const url = this.buildUrl("footer", {
+			populate: "*",
+		});
 		return this.fetchJson<SingleResponse<FooterSection>>(url);
 	}
 	async getFeedback() {
-		const url = this.initLocaleURL("feedback");
-		url.searchParams.append("populate", "*");
+		const url = this.buildUrl("feedback", {
+			populate: "*",
+		});
 		return this.fetchJson<SingleResponse<FeedbackSection>>(url);
 	}
 	async getMainPageSeo() {
-		const url = this.initLocaleURL("main-page");
-		url.searchParams.append("populate[seo][populate]", "*");
+		const url = this.buildUrl("main-page", {
+			populate: { seo: { populate: "*" } },
+		});
 		return this.fetchJson<SingleResponse<{ seo: SEO }>>(url);
 	}
 	async getHeroSection() {
-		const url = this.initLocaleURL("hero");
-		url.searchParams.append("populate", "*");
+		const url = this.buildUrl("hero", {
+			populate: "*",
+		});
 		return this.fetchJson<SingleResponse<HeroSection>>(url);
 	}
 	async getFeatureSection() {
-		const url = this.initLocaleURL("feature-section");
-		url.searchParams.append("populate[feature_icons][populate]", "*");
+		const url = this.buildUrl("feature-section", {
+			populate: {
+				feature_icons: { populate: "*" },
+			},
+		});
 		return this.fetchJson<SingleResponse<FeatureSection>>(url);
 	}
 	async getAboutUsSection() {
-		const url = this.initLocaleURL("about");
-		url.searchParams.append("populate[products][populate]", "image");
-		url.searchParams.append("populate", "background");
+		const url = this.buildUrl("about", {
+			populate: {
+				products: { populate: { image: true } },
+				background: true,
+			},
+		});
 		return this.fetchJson<SingleResponse<AboutUsSection>>(url);
 	}
 	async getArticles() {
-		const url = this.initLocaleURL("articles");
-		url.searchParams.append("populate", "*");
-		url.searchParams.append("sort", "order");
+		const url = this.buildUrl("articles", {
+			populate: "*",
+			sort: "order",
+		});
 		return this.fetchJson<CollectionResponse<Article>>(url);
 	}
 	async getNotFound() {
-		const url = this.initLocaleURL("not-found");
-		url.searchParams.append("populate[seo][populate]", "openGraph");
+		const url = this.buildUrl("not-found", {
+			populate: { seo: { populate: "*" } },
+		});
 		return this.fetchJson<SingleResponse<NotFoundData>>(url);
 	}
 	async getSitemapPage() {
-		const url = this.initLocaleURL("sitemap-page");
-		url.searchParams.append("populate[seo][populate]", "*");
+		const url = this.buildUrl("sitemap-page", {
+			populate: { seo: { populate: "*" } },
+		});
 		return this.fetchJson<SingleResponse<SitemapPageData>>(url);
 	}
 	async sendFeedbackForm(payload: FormData) {
-		const url = this.initLocaleURL("form");
+		const url = this.buildUrl("form");
 		return this.fetchJson<FeedbackForm>(url, {
 			method: "POST",
 			body: payload,

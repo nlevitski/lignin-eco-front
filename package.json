@@ -15,7 +15,8 @@
     "modern-normalize": "^3.0.1",
     "negotiator": "^1.0.0",
     "next": "16.2.9",
-    "next-intl": "^4.13.0",
+    "next-intl": "^4.13.1",
+    "qs": "^6.15.3",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "sass": "^1.101.0"
@@ -23,11 +24,12 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@next/bundle-analyzer": "16.2.9",
+    "@next/eslint-plugin-next": "16.2.9",
     "@types/negotiator": "^0.6.4",
     "@types/node": "^26.0.1",
+    "@types/qs": "^6.15.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@next/eslint-plugin-next": "16.2.9",
     "eslint": "^10.6.0",
     "eslint-config-next": "16.2.9",
     "typescript": "^6.0.3"
