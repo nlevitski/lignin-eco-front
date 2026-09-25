@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lignin Eco frontend
 
-## Getting Started
+Next.js frontend for `lignineco.com`. The backend is the separate `service` project.
 
-First, run the development server:
+## Local development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+```sh
+pnpm install --frozen-lockfile
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start Strapi on `http://localhost:1337` first. `STRAPI_URL` selects the server-side API address; `NEXT_PUBLIC_STRAPI_URL` remains a fallback for existing local setups. In production, use `STRAPI_URL=http://lignineco-strapi:1337` on the shared Docker network.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Docker deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The Compose project runs only the frontend. The `lignin` network must already exist, and the Strapi Compose project in `../service` must attach its `lignineco-strapi` service to that network. The existing Traefik project also attaches to `lignin`. Traefik discovers this frontend through Compose labels and routes `lignineco.com` to port 3000. The backend's more specific `/api`, `/uploads`, and admin routes are defined in its own Compose file.
 
-## Learn More
+```sh
+docker network inspect lignin
+docker compose up -d --build --wait
+```
 
-To learn more about Next.js, take a look at the following resources:
+The sitemap pages read Strapi during the Next.js build. `STRAPI_BUILD_URL` defaults to `https://lignineco.com`, so that address must expose the backend API during each build. Set `STRAPI_BUILD_URL` in the frontend's VPS `.env` if the public API address changes. If Google Analytics is used, set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` there too; Next.js embeds that public ID at build time. Next.js records the `/api` and `/uploads` rewrite destination during the build; the Dockerfile sets it to the Strapi service's Docker hostname. The running container also uses Docker DNS for server-side API requests. The image is built with Node 24 slim and pnpm 10.15.1, then runs Next.js standalone as the unprivileged `node` user.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## GitHub Actions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The deployment workflow runs on pushes to `main` or manually. Set these repository secrets:
 
-## Deploy on Vercel
+- `VPS_HOST`: new VPS hostname or IP address
+- `VPS_USER`: SSH user with access to Docker and the deployment directory
+- `VPS_SSH_KEY`: that user's private SSH key (install its public key on the VPS)
+- `VPS_PATH`: frontend destination, for example `~/lignineco/front` or `/srv/lignineco/front`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The workflow uploads only this frontend repository and runs `docker compose up -d --build --wait` in `VPS_PATH`. It does not deploy the backend or shared Traefik configuration. Its `rsync --delete` removes stale files in the frontend destination, while excluding `.env*`, `.git`, build output, and dependencies. An existing destination must contain this project's `package.json`; reserve `VPS_PATH` for this frontend.

@@ -1,0 +1,36 @@
+name: lignineco-front
+
+services:
+  lignineco-front:
+    build:
+      context: .
+      args:
+        STRAPI_BUILD_URL: ${STRAPI_BUILD_URL:-https://lignineco.com}
+        NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${NEXT_PUBLIC_GOOGLE_ANALYTICS_ID:-}
+    restart: unless-stopped
+    init: true
+    environment:
+      STRAPI_URL: http://lignineco-strapi:1337
+    expose:
+      - "3000"
+    networks:
+      - lignin
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: lignin
+      traefik.http.routers.lignineco-front.rule: "Host(`lignineco.com`)"
+      traefik.http.routers.lignineco-front.entrypoints: websecure
+      traefik.http.routers.lignineco-front.tls.certresolver: le
+      traefik.http.routers.lignineco-front.priority: "1"
+      traefik.http.services.lignineco-front.loadbalancer.server.port: "3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/robots.txt').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+
+networks:
+  lignin:
+    external: true
+    name: lignin

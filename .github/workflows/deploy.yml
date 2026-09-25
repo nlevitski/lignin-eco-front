@@ -1,47 +1,92 @@
 name: Deploy to VPS
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: lignineco-front-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PATH: ${{ secrets.VPS_PATH }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Install SSH Key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Execute deploy commands
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate destination and configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "
-            # Инициализируем fnm
-            export FNM_PATH=\"/home/${{ secrets.VPS_USER }}/.local/share/fnm\"
-            export PATH=\"\$FNM_PATH:\$PATH\"
-            eval \"\$(fnm env)\"
-            
-            # Используем default версию Node.js
-            fnm use default
-            
-            # Добавляем pnpm в PATH
-            export PNPM_HOME=\"/home/${{ secrets.VPS_USER }}/.local/share/pnpm\"
-            export PATH=\"\$PNPM_HOME:\$PATH\"
-            
-            # Проверяем версии (для отладки)
-            echo 'Node version:' && node -v
-            echo 'pnpm version:' && pnpm -v
-            echo 'pm2 version:' && /home/${{ secrets.VPS_USER }}/.pnpm-global/bin/pm2 --version
-            echo 'PATH:' && echo \$PATH
-            
-            # Переходим в директорию проекта
-            cd ${{ secrets.VPS_PATH }} &&
-            
-            # Обновляем код
-            git pull origin main &&
-            
-            # Устанавливаем зависимости и собираем проект
-            pnpm install --frozen-lockfile &&
-            pnpm next build &&
-            
-            # Перезапускаем PM2
-            /home/${{ secrets.VPS_USER }}/.pnpm-global/bin/pm2 restart front
-          "
+          set -euo pipefail
+          [[ "$VPS_HOST" =~ ^[A-Za-z0-9][A-Za-z0-9.-]*$ ]] || { echo 'Invalid VPS_HOST'; exit 1; }
+          [[ "$VPS_USER" =~ ^[A-Za-z_][A-Za-z0-9_-]*$ ]] || { echo 'Invalid VPS_USER'; exit 1; }
+          case "$VPS_PATH" in
+            "~/"*) app_path="${VPS_PATH:2}" ;;
+            /*) app_path="$VPS_PATH" ;;
+            *) echo 'VPS_PATH must start with ~/ or /'; exit 1 ;;
+          esac
+          if [[ ! "$app_path" =~ ^/?[A-Za-z0-9_-]+([/.][A-Za-z0-9_-]+)*$ ]]; then
+            echo 'VPS_PATH contains an invalid directory name'
+            exit 1
+          fi
+          [[ -n "$VPS_SSH_KEY" ]] || { echo 'VPS_SSH_KEY is empty'; exit 1; }
+          echo "VPS_APP_PATH=$app_path" >> "$GITHUB_ENV"
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$VPS_SSH_KEY" > "$HOME/.ssh/id_deploy"
+          chmod 600 "$HOME/.ssh/id_deploy"
+          ssh-keyscan -T 10 -H "$VPS_HOST" >> "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Check destination
+        run: |
+          set -euo pipefail
+          ssh -i "$HOME/.ssh/id_deploy" -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes "$VPS_USER@$VPS_HOST" bash -s -- "$VPS_APP_PATH" <<'REMOTE'
+            set -euo pipefail
+            case "$1" in
+              /*) app_dir="$1" ;;
+              *) app_dir="$HOME/$1" ;;
+            esac
+            mkdir -p -- "$app_dir"
+            if [ -n "$(find "$app_dir" -mindepth 1 -maxdepth 1 -print -quit)" ]; then
+              if [ ! -f "$app_dir/package.json" ] || ! grep -Eq '"name"[[:space:]]*:[[:space:]]*"front"' "$app_dir/package.json"; then
+                echo 'VPS_PATH is not an empty directory or an existing frontend checkout' >&2
+                exit 1
+              fi
+            fi
+            docker network inspect lignin >/dev/null
+            docker compose version >/dev/null
+            command -v rsync >/dev/null
+          REMOTE
+
+      - name: Upload application
+        run: |
+          set -euo pipefail
+          rsync -az --delete \
+            -e "ssh -i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.env*' \
+            --exclude='node_modules/' \
+            --exclude='.next/' \
+            --exclude='.DS_Store' \
+            ./ "$VPS_USER@$VPS_HOST:$VPS_APP_PATH/"
+
+      - name: Build and start
+        run: |
+          set -euo pipefail
+          ssh -i "$HOME/.ssh/id_deploy" -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes "$VPS_USER@$VPS_HOST" bash -s -- "$VPS_APP_PATH" <<'REMOTE'
+            set -euo pipefail
+            case "$1" in
+              /*) app_dir="$1" ;;
+              *) app_dir="$HOME/$1" ;;
+            esac
+            cd "$app_dir"
+            docker compose up -d --build --wait
+          REMOTE
