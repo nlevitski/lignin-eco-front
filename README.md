@@ -13,7 +13,7 @@ Start Strapi on `http://localhost:1337` first. `STRAPI_URL` selects the server-s
 
 ## Docker deployment
 
-The Compose project runs only the frontend. The `lignin` network must already exist, and the Strapi Compose project in `../service` must attach its `lignineco-strapi` service to that network. The existing Traefik project also attaches to `lignin`. Traefik discovers this frontend through Compose labels and routes `lignineco.com` to port 3000. The backend's more specific `/api`, `/uploads`, and admin routes are defined in its own Compose file.
+The Compose project runs only the frontend. The `lignin` network must already exist, and the Strapi Compose project in `../service` must attach its `lignineco-strapi` service to that network. The existing Traefik project also attaches to `lignin`. Traefik discovers this frontend through Compose labels and routes `lignineco.com` to port 3000. It redirects `www.lignineco.com` to the apex domain, preserving the old Nginx behavior. The backend's more specific `/api`, `/uploads`, and admin routes are defined in its own Compose file.
 
 ```sh
 docker network inspect lignin
